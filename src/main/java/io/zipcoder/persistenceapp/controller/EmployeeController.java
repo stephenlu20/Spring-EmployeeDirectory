@@ -5,8 +5,7 @@ import io.zipcoder.persistenceapp.entity.Employee;
 import io.zipcoder.persistenceapp.service.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping("/API/employees")
@@ -19,17 +18,17 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public Employee create(@RequestBody EmployeeCreateRequest dto) {
-        return service.createEmployee(dto);
+    public Employee create(@RequestBody EmployeeCreateRequest req) {
+        return service.createEmployee(req);
     }
 
     @PutMapping("/{empId}/manager/{mgrId}")
-    public Employee setManager(@PathVariable Long empId, @PathVariable Long mgrId) {
+    public Employee assignManager(@PathVariable Long empId, @PathVariable Long mgrId) {
         return service.assignManager(empId, mgrId);
     }
 
     @GetMapping("/manager/{mgrId}")
-    public List<Employee> byManager(@PathVariable Long mgrId) {
+    public List<Employee> underManager(@PathVariable Long mgrId) {
         return service.getEmployeesUnderManager(mgrId);
     }
 
@@ -40,7 +39,7 @@ public class EmployeeController {
 
     @GetMapping("/{id}/hierarchy")
     public List<Employee> hierarchy(@PathVariable Long id) {
-        return service.getHierarchy(id);
+        return service.getManagerChain(id);
     }
 
     @DeleteMapping("/{id}")

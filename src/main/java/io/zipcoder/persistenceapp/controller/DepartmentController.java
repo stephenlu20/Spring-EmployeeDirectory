@@ -1,5 +1,6 @@
 package io.zipcoder.persistenceapp.controller;
 
+import io.zipcoder.persistenceapp.dto.DepartmentCreateRequest;
 import io.zipcoder.persistenceapp.entity.Department;
 import io.zipcoder.persistenceapp.service.DepartmentService;
 import org.springframework.web.bind.annotation.*;
@@ -15,17 +16,17 @@ public class DepartmentController {
     }
 
     @PostMapping
-    public Department create(@RequestParam Long num, @RequestParam String name) {
-        return service.createDepartment(num, name);
+    public Department create(@RequestBody DepartmentCreateRequest req) {
+        return service.createDepartment(req.departmentNumber, req.name);
     }
 
-    @PutMapping("/{dept}/manager/{emp}")
-    public Department setManager(@PathVariable Long dept, @PathVariable Long emp) {
-        return service.setManager(dept, emp);
+    @PutMapping("/{deptNum}/manager/{empId}")
+    public Department setManager(@PathVariable Long deptNum, @PathVariable Long empId) {
+        return service.setManager(deptNum, empId);
     }
 
-    @PutMapping("/{dept}/rename")
-    public Department rename(@PathVariable Long dept, @RequestParam String name) {
-        return service.rename(dept, name);
+    @PutMapping("/{deptNum}/rename")
+    public Department rename(@PathVariable Long deptNum, @RequestParam String name) {
+        return service.rename(deptNum, name);
     }
 }
